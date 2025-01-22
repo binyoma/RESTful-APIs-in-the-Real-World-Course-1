@@ -35,8 +35,9 @@ class ProgrammerController extends BaseController
         $url = $this->generateUrl('api_programmers_show', array(
             'nickname' => $programmer->nickname
         ));
+        $data = $this->serializeProgrammer($programmer);
 
-        $response= new Response('It worked',201);
+        $response= new JsonResponse($data,201);
         $response->headers->set('Location', $url);
         return $response;
 
@@ -51,9 +52,7 @@ class ProgrammerController extends BaseController
             $this->throw404('oh no! This programmer does not exist');
         }
         $data = $this->serializeProgrammer($programmer);
-        $response = new Response(json_encode($data), 200);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return new JsonResponse($data, 200);
     }
 
     public function listAction()
@@ -66,9 +65,8 @@ class ProgrammerController extends BaseController
         foreach ($programmers as $programmer) {
             $data['programmers'][] = $this->serializeProgrammer($programmer);
         }
-        $response = new Response(json_encode($data), 200);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+
+        return new JsonResponse($data, 200);
     }
     private function serializeProgrammer(Programmer $programmer)
     {
