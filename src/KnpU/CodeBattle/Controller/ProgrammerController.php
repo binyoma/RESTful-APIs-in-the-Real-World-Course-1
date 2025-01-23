@@ -8,6 +8,7 @@ use KnpU\CodeBattle\Model\Programmer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class ProgrammerController extends BaseController
@@ -19,6 +20,7 @@ class ProgrammerController extends BaseController
         $controllers->get('/programmers/choose', array($this, 'chooseAction'))->bind('programmer_choose');
         $controllers->get('/programmers/{nickname}', array($this, 'showAction'))->bind('programmer_show');
         $controllers->post('/programmers/{nickname}/power/up', array($this, 'powerUpAction'))->bind('programmer_powerup');
+
     }
 
 
@@ -55,6 +57,8 @@ class ProgrammerController extends BaseController
         $this->setFlash(sprintf('%s has been compiled and is ready for battle!', $programmer->nickname));
         return $this->redirect($this->generateUrl('programmer_show', array('nickname' => $programmer->nickname)));
     }
+
+
 
     public function showAction($nickname)
     {

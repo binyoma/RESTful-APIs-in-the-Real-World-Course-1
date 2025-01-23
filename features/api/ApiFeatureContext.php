@@ -120,6 +120,13 @@ class ApiFeatureContext extends BehatContext
 
         $this->client = new Client($parameters['base_url'], $config);
     }
+    /**
+     * @BeforeScenario
+     */
+    public function clearData()
+    {
+        $this->getProjectHelper()->reloadDatabase();
+    }
 
     /**
      * @Given /^I have the payload:$/
